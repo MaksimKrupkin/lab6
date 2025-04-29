@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Иванов Иван Иванович",
+    "position": "Инженер",
+    "department": "Производство",
+    "email": "ivanov@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Петров Петр Петрович",
+    "position": "Менеджер",
+    "department": "Продажи",
+    "email": "petrov@example.com"
+  }
+]

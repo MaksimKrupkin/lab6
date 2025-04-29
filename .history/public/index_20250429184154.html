@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Сотрудники</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Информация о сотрудниках</h1>
+    <select id="employeeSelect"></select>
+
+    <div id="form">
+      <input id="name" placeholder="ФИО" />
+      <input id="position" placeholder="Должность" />
+      <input id="department" placeholder="Отдел" />
+      <input id="email" placeholder="Email" />
+    </div>
+
+    <div id="photoInfo" class="hidden"></div>
+
+    <div class="buttons">
+      <button onclick="loadEmployeeData()">Загрузить JSON</button>
+      <button onclick="loadPhotoBlock()">Загрузить фото-блок</button>
+      <button onclick="clearAll()">Очистить</button>
+    </div>
+
+    <script>
+      async function fetchEmployees() {
+        const res = await fetch('/api/employees');
+        const data = await res.json();
+        const select = document.getElementById('employeeSelect');
+        data.forEach((emp) => {
+          const option = document.createElement('option');
+          option.value = emp.id;
+          option.textContent = emp.name;
+          select.appendChild(option);
+        });
+      }
+
+      async function loadEmployeeData() {
+        const id = document.getElementById('employeeSelect').value;
+        const res = await fetch(`/api/employees/${id}`);
+        const data = await res.json();
+        document.getElementById('name').value = data.name;
+        document.getElementById('position').value = data.position;
+        document.getElementById('department').value = data.department;
+        document.getElementById('email').value = data.email;
+      }
+
+      async function loadPhotoBlock() {
+        const res = await fetch('/api/photo-info');
+        const text = await res.text();
+        const div = document.getElementById('photoInfo');
+        div.textContent = text;
+        div.classList.remove('hidden');
+      }
+
+      function clearAll() {
+        ['name', 'position', 'department', 'email'].forEach((id) => {
+          document.getElementById(id).value = '';
+        });
+        document.getElementById('photoInfo').textContent = '';
+        document.getElementById('photoInfo').classList.add('hidden');
+      }
+
+      fetchEmployees();
+    </script>
+  </body>
+</html>
